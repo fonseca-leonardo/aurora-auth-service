@@ -16,7 +16,7 @@ services:
       - "traefik.http.services.dev-aurora-auth-service.loadbalancer.sticky=true"
       - "traefik.http.services.dev-aurora-auth-service.loadbalancer.sticky.cookie.name=auth-token"
       - "traefik.http.services.dev-aurora-auth-service.loadbalancer.sticky.cookie.httpOnly=true"
-      - "traefik.http.services.dev-aurora-auth-service.loadbalancer.sticky.cookie.domain=.aurora.drenapps.com.br"
+      - "traefik.http.services.dev-aurora-auth-service.loadbalancer.sticky.cookie.domain=*.aurora.drenapps.com.br"
       - "traefik.http.routers.dev-aurora-auth-service.service=dev-aurora-auth-service"
       - "traefik.http.routers.dev-aurora-auth-service.tls=true"
       - "traefik.http.routers.dev-aurora-auth-service.tls.certresolver=production"
