@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  dev-aurora-pets-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dev-aurora-pets-service.entrypoints=web,websecure"
+      - "traefik.http.routers.dev-aurora-pets-service.rule=Host(`dev-pets-service.aurora.drenapps.com.br`)"
+      - "traefik.http.services.dev-aurora-pets-service.loadbalancer.server.port=3316"
+      - "traefik.http.routers.dev-aurora-pets-service.service=dev-aurora-pets-service"
+      - "traefik.http.routers.dev-aurora-pets-service.tls=true"
+      - "traefik.http.routers.dev-aurora-pets-service.tls.certresolver=production"
+networks:
+  default:
+    external: true
+    name: server_default
