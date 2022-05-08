@@ -8,6 +8,11 @@ export default (request: Request, response: Response, next: NextFunction) => {
   const authProvider = new JwtProvider();
   const cookies = request.signedCookies;
 
+  console.log({
+    cookie: request.cookies,
+    signedCookie: request.signedCookies,
+  });
+
   if (!cookies) {
     throw new ServerError(ErrorMessages.NOT_ALLOWED, 401);
   }

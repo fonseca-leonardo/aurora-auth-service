@@ -25,7 +25,12 @@ jobs:
         
       -
         name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@v2
+        
+      -
+        name: Available plataforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
         
       -
         name: Login to DockerHub
@@ -39,7 +44,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          plataforms: |-
+          platforms: |-
             linux/amd64
             linux/arm64
           file: ./Dockerfile
