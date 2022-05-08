@@ -20,7 +20,7 @@ export default class AuthenticationController {
       domain: process.env.COOKIE_DOMAIN,
     });
 
-    return response.formatedJson(data, { token });
+    return response.formatedJson(data);
   }
 
   public async forgotPassword(request: Request, response: Response) {
