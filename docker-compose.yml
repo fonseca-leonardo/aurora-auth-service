@@ -2,9 +2,7 @@ version: '3.7'
 
 services:
   dev-aurora-auth-service:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: aurora-auth-service:dev
 
     env_file:
       - .env
