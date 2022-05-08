@@ -27,7 +27,7 @@ jobs:
       id: extract_branch
       
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --platform linux/arm64 --tag leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
+      run: docker build . --file Dockerfile --platform linux/arm64,linux/amd64 --tag leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
       
     - name: Docker Push
       run: docker push leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
