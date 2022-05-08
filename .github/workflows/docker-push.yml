@@ -10,6 +10,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Pull repo
+        uses: actions/checkout@v2
+        
       -
         name: Extract branch name
         shell: bash
