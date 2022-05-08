@@ -7,27 +7,38 @@ on:
     branches: [ master, dev ]
 
 jobs:
-
-  build:
-
+  docker:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: docker login
-      env:
-        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      -
+        name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
         
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-      
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --platform linux/arm64,linux/amd64 --tag leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
-      
-    - name: Docker Push
-      run: docker push leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          plataforms: |-
+            linux/amd64
+            linux/arm64
+          file: ./Dockerfile
+          push: true
+          tags: leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
