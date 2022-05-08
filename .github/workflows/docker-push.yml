@@ -44,7 +44,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: ${{ steps.buildx.outputs.platforms }}
+          platforms: |-
+            linux/amd64
+            linux/arm64
           file: ./Dockerfile
           push: true
           tags: leonardof45/aurora-auth-service:${{ steps.extract_branch.outputs.branch }}
